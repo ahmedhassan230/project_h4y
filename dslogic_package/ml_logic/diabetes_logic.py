@@ -1,6 +1,4 @@
-"""
-This function is used to predict if a user is diabetic or not
-"""
+
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -11,6 +9,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
 
 def diabetes_outcome():
+    """
+    This function is used to predict if a user is diabetic or not
+    """
     filepath='../raw_data/diabetes.csv'
     df = pd.read_csv(filepath)
     y = df['Outcome']
