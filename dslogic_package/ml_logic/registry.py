@@ -7,7 +7,7 @@ from colorama import Fore, Style
 from tensorflow import keras
 from google.cloud import storage
 
-from dslogic.params import *
+from dslogic_package.params import *
 def save_results(params: dict, metrics: dict) -> None:
     """
     Persist params & metrics locally on the hard drive at
