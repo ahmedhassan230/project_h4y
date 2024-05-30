@@ -36,14 +36,15 @@ def hrt_attack_outcome():
     model.fit(X_train, y_train)
 
     #save the model
-    registry.save_model(model)
+    registry.save_model(model,"heart")
 
 def hrt_attack_outcome(X_new):
     #load model
-    model=registry.load_model()
+    model=registry.load_model("heart")
+
     # Make predictions
     y_pred = model.predict(X_new)
-    #y_prob = model.predict_proba(X_test)[:, 1]
+
 
     if float(y_pred)== 1:
         return 'heartissues'
