@@ -28,7 +28,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/predict")
+@app.get("/categorize")
 def predict(usr:User):
 
     user_category=[]
