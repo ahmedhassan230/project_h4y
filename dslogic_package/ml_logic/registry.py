@@ -1,5 +1,4 @@
 import pickle
-from dslogic_package.params import *
 
 def save_model(model = None,logic=None):
 
@@ -24,9 +23,9 @@ def load_model(logic=None):
     if logic==None:
         print('Didnt receive any for logic to load a model')
 
-    elif logic=='diabetes':
+    else:
         with open(model_path,'rb') as file:
             model= pickle.load(file)
-            print("✅ Diabetes Model loaded from local disk")
+            print(f"✅ {logic} Model loaded from local")
 
     return model

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
-from dslogic_package import registry
+from dslogic_package.ml_logic import registry
 from sklearn.preprocessing import LabelEncoder
 
 def hrt_attack_outcome():
