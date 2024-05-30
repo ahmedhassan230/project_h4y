@@ -45,3 +45,9 @@ def mental_model(X_new):
         None
     else:
         return 'mental_health'
+
+import pickle
+
+# Assuming you have a trained model named 'model'
+with open('model.pkl', 'wb') as file:
+    pickle.dump(model, file)
