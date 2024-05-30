@@ -7,11 +7,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
-from dslogic_package import registry
+from dslogic_package.ml_logic import registry
+
 def diabetes_model():
     """
     This function is used to predict if a user is diabetic or not
     """
+    breakpoint
+
     filepath='../raw_data/diabetes.csv'
     df = pd.read_csv(filepath)
     y = df['Outcome']
@@ -31,7 +34,7 @@ def diabetes_model():
     registry.save_model(model,'diabetes')
 
 
-def diabetes_model(X_new):
+def diabetes_outcome(X_new):
     #load model
     model=registry.load_model('diabetes')
     # Make predictions
