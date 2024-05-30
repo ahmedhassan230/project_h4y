@@ -29,7 +29,7 @@ def read_root():
 
 
 @app.get("/categorize")
-def predict(usr:User):
+def predict(usr:dict):
 
     user_category=[]
 # Convert dictionary to DataFrame
