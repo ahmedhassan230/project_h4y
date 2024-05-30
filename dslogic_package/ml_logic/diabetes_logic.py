@@ -28,12 +28,12 @@ def diabetes_model():
     model.fit(X_train, y_train)
 
     #save the model
-    registry.save_model(model)
+    registry.save_model(model,'diabetes')
 
 
 def diabetes_model(X_new):
     #load model
-    model=registry.load_model()
+    model=registry.load_model('diabetes')
     # Make predictions
     y_pred = model.predict(X_new)
     #y_prob = model.predict_proba(X_test)[:, 1]
