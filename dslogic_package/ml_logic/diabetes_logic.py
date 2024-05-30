@@ -43,4 +43,5 @@ def diabetes_outcome(X_new):
 
     if float(y_pred)== 1:
         return 'diabetic'
+
     return None

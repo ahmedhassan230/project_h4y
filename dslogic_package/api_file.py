@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from dslogic_package.ml_logic import diabetes_logic
 from dslogic_package.ml_logic import heart_attack_logic
-from dslogic_package.ml_logic import mental_health_logic
-from dslogic_package.ml_logic import osteoporosis_logic
+#from dslogic_package.ml_logic import mental_health_logic
+#from dslogic_package.ml_logic import osteoporosis_logic
 import pandas as pd
 
 class User():
@@ -34,6 +34,7 @@ def predict(usr:dict):
     user_category=[]
 # Convert dictionary to DataFrame
     df = pd.DataFrame.from_dict(usr, orient='index')
+    
     # Rename columns
     df.rename(columns={'occupation': 'Occupation', 'gender': 'Sex',
                        'country': 'Country','days_indoors':'Days Indoors','self_employed':'Self Employed',
@@ -49,10 +50,14 @@ def predict(usr:dict):
     user_category.append(diabetes_logic.diabetes_outcome(df[['Age','BMI']]))
 
     #call the heart logic
-    df_heart=df[['Gender','Age','Smoking','Alcohol Consumption','Sleep Hours Per Day','BMI']]
-    df_heart.rename(columns={'Gender': 'Sex','Sleeping Hours':'Sleep Hours Per Day'})
-    user_category.append(heart_attack_logic.hrt_attack_outcome(df_heart))
+   # df_heart=df[['Gender','Age','Smoking','Alcohol Consumption','Sleep Hours Per Day','BMI']]
+   # df_heart.rename(columns={'Gender': 'Sex','Sleeping Hours':'Sleep Hours Per Day'})
+   # user_category.append(heart_attack_logic.hrt_attack_outcome(df_heart))
 
     #call the Oste logic
 
     #call the stress logic
+
+
+    #return user categories
+    return user_category
