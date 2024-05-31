@@ -15,7 +15,7 @@ def Mental():
     labelencoder = LabelEncoder()
     for col in list_col:
         df[col]=labelencoder.fit_transform(df[col])
-        
+
 
     # Dropping the column 'Growing_Stress'
     X = df[['Gender', 'Occupation', 'self_employed', 'Days_Indoors', 'Country']]
