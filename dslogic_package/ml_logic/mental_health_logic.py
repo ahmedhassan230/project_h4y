@@ -5,6 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
+from dslogic_package.ml_logic import registry
 
 
 def Mental():
@@ -33,11 +34,20 @@ def Mental():
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
-def mental_model(X_new):
-
     model = KNeighborsClassifier(n_neighbors=5)
     model.fit(X_train, y_train)
+    
+    registry.save_model(model, 'osteoporosis')
 
+
+def mental_model(X_new):
+    
+    model=registry.load_model("osteoporosis")
+
+    list_col=['Gender', 'Occupation', 'self_employed', 'Days_Indoors', 'Country']
+    labelencoder = LabelEncoder()
+    for col in list_col:
+        X_new[col]=labelencoder.fit_transform(X_new[col])
     # Make predictions
     y_pred = model.predict(X_new)
 
@@ -45,9 +55,3 @@ def mental_model(X_new):
         None
     else:
         return 'mental_health'
-
-import pickle
-
-# Assuming you have a trained model named 'model'
-with open('model.pkl', 'wb') as file:
-    pickle.dump(model, file)
