@@ -3,14 +3,14 @@ from dslogic_package.params import *
 import os
 
 def save_model(model = None,logic=None):
-
+    print(MODEL_DIR)
     model_name=f'model_{logic}.pkl'
     model_path=os.path.join(MODEL_DIR,model_name)
 
     #save model
     with open(model_path,'wb') as file:
         pickle.dump(model,file)
-
+    print(model_path)
     print("✅ Model saved to Local")
 
 
@@ -19,8 +19,6 @@ def load_model(logic=None):
     """
     Return a saved model
     """
-
-
     model_name=f'model_{logic}.pkl'
     model_path=os.path.join(MODEL_DIR,model_name)
 
