@@ -7,7 +7,7 @@ from dslogic_package.ml_logic import registry
 import os
 
 BASE_PATH = '/Users/admin/code/ahmedhassan230/project_h4y'
-MODEL_PATH = os.path.join(BASE_PATH, 'model')
+#MODEL_PATH = os.path.join(BASE_PATH, )
 
 def Osteoporosis():
     df = pd.read_csv('/Users/admin/code/ahmedhassan230/project_h4y/raw_data/osteoporosis.csv')
