@@ -56,6 +56,7 @@ def mental_model(X_new):
     else:
         return 'mental_health'
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 import pickle
@@ -64,3 +65,6 @@ import pickle
 with open('model.pkl', 'wb') as file:
     pickle.dump(model, file)
 >>>>>>> main
+=======
+
+>>>>>>> c4dbaf237bfbfc2e8e346d22435af91c15ed91d6
