@@ -1,9 +1,11 @@
 import pickle
+from dslogic_package.params import *
+import os
 
 def save_model(model = None,logic=None):
 
     model_name=f'model_{logic}.pkl'
-    model_path=f'../models/{model_name}'
+    model_path=os.path.join(MODEL_DIR,model_name)
 
     #save model
     with open(model_path,'wb') as file:
@@ -17,8 +19,10 @@ def load_model(logic=None):
     """
     Return a saved model
     """
+
+
     model_name=f'model_{logic}.pkl'
-    model_path=f'../models/{model_name}'
+    model_path=os.path.join(MODEL_DIR,model_name)
 
     if logic==None:
         print('Didnt receive any for logic to load a model')
