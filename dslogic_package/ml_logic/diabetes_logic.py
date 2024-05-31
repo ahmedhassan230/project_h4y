@@ -13,25 +13,27 @@ def diabetes_model():
     """
     This function is used to predict if a user is diabetic or not
     """
-    breakpoint
-
-    filepath='../raw_data/diabetes.csv'
+    #NEED TO FIND A WAY STORE THE DATASET REMOTELY
+    filepath='raw_data/diabetes.csv'
     df = pd.read_csv(filepath)
     y = df['Outcome']
     X= df[['Age','BMI']]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Standardize the data
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    X = scaler.fit_transform(X)
+    #X = scaler.transform(X)
+   # X_test = scaler.transform(X_test)
 
     # Create and train the KNN  model
     model = KNeighborsClassifier(n_neighbors=10)
-    model.fit(X_train, y_train)
+    model.fit(X, y)
 
     #save the model
     registry.save_model(model,'diabetes')
+
+
 
 
 def diabetes_outcome(X_new):
