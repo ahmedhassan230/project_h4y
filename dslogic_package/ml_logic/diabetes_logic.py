@@ -21,8 +21,7 @@ def diabetes_model():
     # Standardize the data
     scaler = StandardScaler()
     X = scaler.fit_transform(X)
-    #X = scaler.transform(X)
-   # X_test = scaler.transform(X_test)
+    #Add code to save the scaler
 
     # Create and train the KNN  model
     model = KNeighborsClassifier(n_neighbors=10)
