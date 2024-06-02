@@ -47,7 +47,7 @@ def save_prep(prep = None,logic=None):
 
 
 
-def load_model(logic=None):
+def load_prep(logic=None):
     """
     Return a saved model
     """
