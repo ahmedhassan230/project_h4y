@@ -32,6 +32,11 @@ def hrt_attack_model():
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
+    #Save the preprocessors
+
+    registry.save_prep(scaler,"scaler_heart")
+    registry.save_prep(encoders,"encoders_heart")
+
     # Create and train the KNN model
     model = KNeighborsClassifier(n_neighbors=50)
     model.fit(X_train, y_train)

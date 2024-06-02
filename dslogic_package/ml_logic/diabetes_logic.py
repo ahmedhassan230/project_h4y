@@ -22,7 +22,8 @@ def diabetes_model():
     scaler = StandardScaler()
     X = scaler.fit_transform(X)
     #Add code to save the scaler
-
+    registry.save_prep(scaler,"scaler_diabetes")
+    
     # Create and train the KNN  model
     model = KNeighborsClassifier(n_neighbors=10)
     model.fit(X, y)
@@ -34,6 +35,10 @@ def diabetes_model():
 
 
 def diabetes_outcome(X_new):
+    #load scaler
+    scaler=registry.load_prep("scaler_diabetes")
+    X_new=scaler.transform(X_new)
+
     #load model
     model=registry.load_model('diabetes')
     # Make predictions
