@@ -1,8 +1,0 @@
-FROM python:3.8.12-slim
-
-COPY requirements.txt requirements
-COPY dslogic_package dslogic_package
-
-RUN pip install -r requirements.txt
-
-CMD uvicorn dslogic_package.api_file:app --reload
