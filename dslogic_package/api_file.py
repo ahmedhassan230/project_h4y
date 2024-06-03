@@ -84,16 +84,13 @@ async def predict(usr:User):
             user_cat_dict["osteoporosis"]="YES"
 
         #call the Mental Health logic
-<<<<<<< HEAD
-        
-=======
+
         df.rename(columns={'Sex':'Gender'}, inplace = True)
         mental_health_pred=mental_health_logic.mental_model(df[['Gender', 'Occupation', 'self_employed', 'Days_Indoors', 'Country']])
 
         if mental_health_pred!=None:
             user_category.append(mental_health_pred)
             user_cat_dict["mental_health"]="YES"
->>>>>>> main
 
         if user_category==[]:
             user_category.append('generic')
