@@ -43,17 +43,27 @@ def hrt_attack_model():
 
     #save the model
     registry.save_model(model,'heart')
+    #Add code to save the preprocessors
+    registry.save_prep(scaler,"scaler_heart")
+    registry.save_prep(encoders,"encoders_heart")
 
 def hrt_attack_outcome(X_new):
-
+    #load model
+    model=registry.load_model("heart")
+    scaler=registry.load_prep("scaler_heart")
+    encoders = registry.load_prep("encoders_heart")
     #Preprocess X_new
     #encoding
-    encoders = {}
+    #Add code to load the Encoder
+
     list_col = ['Sex', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']
-    for col in list_col:
-        encoder = LabelEncoder()
-        X_new[col] = encoder.fit_transform(X_new[col])
-        encoders[col] = encoder
+    if not all(col in X_new.columns for col in list_col):
+        raise ValueError(f"Input data must contain the following columns: {required_columns}")
+
+    # Encode new data
+    for col, encoder in encoders.items():
+        X_new[col] = encoder.transform(X_new[col])
+
 
 
     X_new = X_new[['Sex', 'Age', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']]
@@ -62,8 +72,9 @@ def hrt_attack_outcome(X_new):
     scaler = StandardScaler()
     X_new = scaler.fit_transform(X_new)
 
-    #load model
-    model=registry.load_model("heart")
+
+
+
 
     # Make predictions
     y_pred = model.predict(X_new)
