@@ -60,6 +60,7 @@ async def predict(usr:User):
         #call the Osteoperosis logic
 
         #call the Mental Health logic
+        
 
         if user_category==[]:
             user_category.append('Generic')
