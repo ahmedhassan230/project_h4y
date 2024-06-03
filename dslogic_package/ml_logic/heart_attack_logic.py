@@ -44,14 +44,24 @@ def hrt_attack_model():
 
 def hrt_attack_outcome(X_new):
 
+    def convert_smoking(smoking):
+        if smoking in ['NO','No','no']:
+            return 0
+        else:
+            return 1
+    def convert_alcohol(alcohol):
+        if alcohol in ['Moderate','MODERATE','moderate']:
+            return 1
+        else:
+            return 0
+
+    #Preprocessing columns
+    X_new['Smoking'] = X_new['Smoking'].apply(convert_smoking)
+    X_new['Alcohol Consumption'] = X_new['Alcohol Consumption'].apply(convert_alcohol)
+
     #load model
     model=registry.load_model("heart")
-    scaler=registry.load_prep("scaler_heart")
     encoder = registry.load_prep("encoder_heart")
-
-    #Preprocess X_new
-    #encoding
-    #Add code to load the Encoder
 
     list_col = ['Sex', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']
     if not all(col in X_new.columns for col in list_col):
@@ -59,10 +69,6 @@ def hrt_attack_outcome(X_new):
 
     # Encode new data
     X_new['Sex'] = encoder.transform(X_new[['Sex']])
-
-    #X_new = X_new[['Sex', 'Age', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']]
-    # Standardize the data
-    #X_new = scaler.transform(X_new)
 
     # Make predictions
     y_pred = model.predict(X_new)

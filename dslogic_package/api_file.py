@@ -42,16 +42,7 @@ async def predict(usr:User):
             return 'Underweight'
         else:
             return 'Normal'
-    def convert_smoking(smoking):
-        if smoking in ['NO','No','no']:
-            return 0
-        else:
-            return 1
-    def convert_alcohol(alcohol):
-        if alcohol in ['Moderate','MODERATE','moderate']:
-            return 1
-        else:
-            return 0
+
 
     try:
         user_cat_dict= {"diabetic":"NO",
@@ -89,9 +80,6 @@ async def predict(usr:User):
             user_category.append(osteoporosis_pred)
             user_cat_dict["osteoporosis"]="YES"
 
-        #call the heartattack logic
-        df['Smoking'] = df['Smoking'].apply(convert_smoking)
-        df['Alcohol Consumption'] = df['Alcohol Consumption'].apply(convert_alcohol)
 
         heart_pred=heart_attack_logic.hrt_attack_outcome(df[['Sex','Age','Smoking','Alcohol Consumption','Sleep Hours Per Day','BMI']])
 
