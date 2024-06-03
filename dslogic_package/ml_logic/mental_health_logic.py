@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 import joblib
 from dslogic_package.ml_logic import registry
+from dslogic_package.params import *
 
 # Define the base path and model path
 BASE_PATH = '/Users/admin/code/ahmedhassan230/project_h4y'
@@ -41,13 +42,20 @@ def Mental():
     
   
     registry.save_model(model, 'mental')
-    joblib.dump(scaler, 'scaler_mental.pkl')
-    joblib.dump(encoders, 'encoders_mental.pkl')
+    scaler_path=os.path.join(PREPRO_DIR,"scaler_mental.pkl")
+    encoder_path=os.path.join(PREPRO_DIR,"encoders_mental.pkl")
+    joblib.dump(scaler, scaler_path)
+    joblib.dump(encoders,encoder_path)
 
 def mental_model(X_new):
+    
+    
+    scaler_path=os.path.join(PREPRO_DIR,"scaler_mental.pkl")
+    encoder_path=os.path.join(PREPRO_DIR,"encoders_mental.pkl")
+    
     model = registry.load_model("mental")
-    scaler = joblib.load('scaler_mental.pkl')
-    encoders = joblib.load('encoders_mental.pkl')
+    scaler = joblib.load(scaler_path)
+    encoders = joblib.load(encoder_path)
     
     # Ensure X_new has the correct format
     required_columns = ['Gender', 'Occupation', 'self_employed', 'Days_Indoors', 'Country']
