@@ -43,6 +43,7 @@ async def predict(usr:User):
         else:
             return 'Normal'
 
+
     try:
         user_cat_dict= {"diabetic":"NO",
                         "heart":"NO",
@@ -59,9 +60,9 @@ async def predict(usr:User):
                         'smoking':'Smoking','alcohol_consumption': 'Alcohol Consumption',
                         'sun_exposure': 'Vitamin D Intake','activity': 'Physical Activity','dairy_intake':'Calcium Intake',
                         'sleeping_hrs':'Sleep Hours Per Day','age':'Age','weight':'Weight','height':'Height'}, inplace=True)
-        df['BMI']= df['Weight']/df['Height']**2
-        #Define Body Weight
+        df['BMI']= df['Weight']*10000/df['Height']**2
 
+        #Define Body Weight
         df['Body Weight'] = df['BMI'].apply(categorize_bmi)
 
         #call the diabetes logic
@@ -69,21 +70,25 @@ async def predict(usr:User):
         if diabetes_pred !=None:
             user_category.append(diabetes_pred)
             user_cat_dict["diabetic"]="YES"
-        #call the heartattack logic
-        heart_pred=heart_attack_logic.hrt_attack_outcome(df[['Sex','Age','Smoking','Alcohol Consumption','Sleep Hours Per Day','BMI']])
-        if heart_pred !=None:
-            user_category.append(heart_pred)
-            user_cat_dict["heart"]="YES"
 
         #call the Osteoperosis logic
         #'Body Weight', 'Calcium Intake', 'Vitamin D Intake', 'Physical Activity', 'Smoking', 'Alcohol Consumption'
 
         osteoporosis_pred=osteoporosis_logic.osteoporosis_model(df[['Body Weight', 'Calcium Intake', 'Vitamin D Intake', 'Physical Activity', 'Smoking', 'Alcohol Consumption']])
+
         if osteoporosis_pred !=None:
             user_category.append(osteoporosis_pred)
             user_cat_dict["osteoporosis"]="YES"
 
+
+        heart_pred=heart_attack_logic.hrt_attack_outcome(df[['Sex','Age','Smoking','Alcohol Consumption','Sleep Hours Per Day','BMI']])
+
+        if heart_pred !=None:
+            user_category.append(heart_pred)
+            user_cat_dict["heart"]="YES"
+
         #call the Mental Health logic
+
         df.rename(columns={'Sex':'Gender'}, inplace = True)
         mental_health_pred=mental_health_logic.mental_model(df[['Gender', 'Occupation', 'self_employed', 'Days_Indoors', 'Country']])
 

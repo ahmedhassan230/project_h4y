@@ -5,6 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 from dslogic_package.ml_logic import registry
+from sklearn.preprocessing import OneHotEncoder
 
 def hrt_attack_model():
     """
@@ -15,12 +16,8 @@ def hrt_attack_model():
     df_new=df[['Sex','Age','Smoking','Alcohol Consumption','Sleep Hours Per Day','BMI','Heart Attack Risk']]
 
     #encoding
-    encoders = {}
-    list_col = ['Sex', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']
-    for col in list_col:
-        encoder = LabelEncoder()
-        df_new[col] = encoder.fit_transform(df_new[col])
-        encoders[col] = encoder
+    encoder = OneHotEncoder(sparse_output=False,handle_unknown='ignore',drop="if_binary")
+    df_new['Sex'] = encoder.fit_transform(df_new[['Sex']])
 
     y = df_new['Heart Attack Risk']
     X = df_new[['Sex', 'Age', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']]
@@ -28,9 +25,14 @@ def hrt_attack_model():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Standardize the data
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    #scaler = StandardScaler()
+    #X_train = scaler.fit_transform(X_train)
+    #X_test = scaler.transform(X_test)
+
+    #Save the preprocessors
+
+    #registry.save_prep(scaler,"scaler_heart")
+    registry.save_prep(encoder,"encoder_heart")
 
     # Create and train the KNN model
     model = KNeighborsClassifier(n_neighbors=50)
@@ -39,30 +41,37 @@ def hrt_attack_model():
     #save the model
     registry.save_model(model,'heart')
 
+
 def hrt_attack_outcome(X_new):
 
-    #Preprocess X_new
-    #encoding
-    encoders = {}
-    list_col = ['Sex', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']
-    for col in list_col:
-        encoder = LabelEncoder()
-        X_new[col] = encoder.fit_transform(X_new[col])
-        encoders[col] = encoder
+    def convert_smoking(smoking):
+        if smoking in ['NO','No','no']:
+            return 0
+        else:
+            return 1
+    def convert_alcohol(alcohol):
+        if alcohol in ['Moderate','MODERATE','moderate']:
+            return 1
+        else:
+            return 0
 
-
-    X_new = X_new[['Sex', 'Age', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']]
-
-    # Standardize the data
-    scaler = StandardScaler()
-    X_new = scaler.fit_transform(X_new)
+    #Preprocessing columns
+    X_new['Smoking'] = X_new['Smoking'].apply(convert_smoking)
+    X_new['Alcohol Consumption'] = X_new['Alcohol Consumption'].apply(convert_alcohol)
 
     #load model
     model=registry.load_model("heart")
+    encoder = registry.load_prep("encoder_heart")
+
+    list_col = ['Sex', 'Smoking', 'Alcohol Consumption', 'Sleep Hours Per Day', 'BMI']
+    if not all(col in X_new.columns for col in list_col):
+        raise ValueError(f"Input data must contain the following columns: {list_col}")
+
+    # Encode new data
+    X_new['Sex'] = encoder.transform(X_new[['Sex']])
 
     # Make predictions
     y_pred = model.predict(X_new)
-
 
     if float(y_pred)== 1:
         return 'heart'

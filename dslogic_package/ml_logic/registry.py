@@ -37,7 +37,7 @@ def load_model(logic=None):
 def save_prep(prep = None,logic=None):
     print(PREPRO_DIR)
     prepo_name=f'prepo_{logic}.pkl'
-    prepo_path=os.path.join(MODEL_DIR,prepo_name)
+    prepo_path=os.path.join(PREPRO_DIR,prepo_name)
 
     #save model
     with open(prepo_path,'wb') as file:
@@ -52,7 +52,7 @@ def load_prep(logic=None):
     Return a saved model
     """
     prepo_name=f'prepo_{logic}.pkl'
-    prepo_path=os.path.join(MODEL_DIR,prepo_name)
+    prepo_path=os.path.join(PREPRO_DIR,prepo_name)
 
     if logic==None:
         print('Didnt receive any for logic to load a model')
