@@ -6,6 +6,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
 from dslogic_package.ml_logic import registry
+from sklearn.ensemble import RandomForestClassifier
 
 def diabetes_model():
     """
@@ -16,16 +17,9 @@ def diabetes_model():
     df = pd.read_csv(filepath)
     y = df['Outcome']
     X= df[['Age','BMI']]
-    #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Standardize the data
-    scaler = StandardScaler()
-    X = scaler.fit_transform(X)
-    #Add code to save the scaler
-    registry.save_prep(scaler,"scaler_diabetes")
-    
     # Create and train the KNN  model
-    model = KNeighborsClassifier(n_neighbors=10)
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X, y)
 
     #save the model
@@ -33,19 +27,16 @@ def diabetes_model():
 
 
 
-
 def diabetes_outcome(X_new):
-    #load scaler
-    scaler=registry.load_prep("scaler_diabetes")
-    X_new=scaler.transform(X_new)
 
     #load model
     model=registry.load_model('diabetes')
+
     # Make predictions
     y_pred = model.predict(X_new)
-    #y_prob = model.predict_proba(X_test)[:, 1]
 
-    if float(y_pred)== 1:
+    print(y_pred)
+    if int(y_pred)==1:
         return 'diabetic'
 
     return None
