@@ -5,14 +5,14 @@ from sklearn.linear_model import LogisticRegression
 import joblib
 from dslogic_package.ml_logic import registry
 import os
-
+from dslogic_package.params import *
 BASE_PATH = '/Users/admin/code/ahmedhassan230/project_h4y'
 #MODEL_PATH = os.path.join(BASE_PATH, )
 
 def Osteoporosis():
     df = pd.read_csv('/Users/admin/code/ahmedhassan230/project_h4y/raw_data/osteoporosis.csv')
     
-    list_col = ['Body Weight', 'Calcium Intake', 'Vitamin D Intake', 'Physical Activity', 'Smoking', 'Alcohol Consumption']
+    list_col = ['Body Weight','Calcium Intake', 'Vitamin D Intake', 'Physical Activity', 'Smoking', 'Alcohol Consumption']
     encoders = {}
     
     # Encode categorical variables
@@ -35,22 +35,31 @@ def Osteoporosis():
     
     # Save the trained model, scaler, and encoders
     registry.save_model(model, 'osteoporosis')
-    joblib.dump(scaler, 'scaler_osteoporosis.pkl')
-    joblib.dump(encoders, 'encoders_osteoporosis.pkl')
+    scaler_path=os.path.join(PREPRO_DIR,"scaler_osteoporosis.pkl")
+    encoder_path=os.path.join(PREPRO_DIR,"encoders_osteoporosis.pkl")
+    
+    joblib.dump(scaler, scaler_path)
+    joblib.dump(encoders,encoder_path)
 
 def osteoporosis_model(X_new):
+    scaler_path=os.path.join(PREPRO_DIR,"scaler_osteoporosis.pkl")
+    encoder_path=os.path.join(PREPRO_DIR,"encoders_osteoporosis.pkl")
     model = registry.load_model("osteoporosis")
-    scaler = joblib.load('scaler_osteoporosis.pkl')
-    encoders = joblib.load('encoders_osteoporosis.pkl')
+    scaler = joblib.load(scaler_path)
+    print("scaler loading is DONE")
+    encoders = joblib.load(encoder_path)
+    print("encoder loading is DONE")
     
     # Encode new data
     for col, encoder in encoders.items():
         X_new[col] = encoder.transform(X_new[col])
-    
+    print("X encoding loading is DONE")
     X_new_scaled = scaler.transform(X_new)
+    print("X scaler loading is DONE")
     
     y_pred = model.predict(X_new_scaled)
+    print("OST is DONE")
     if y_pred == 1:
         return 'osteoporosis'
     else:
-        return 'no osteoporosis'
+        return None

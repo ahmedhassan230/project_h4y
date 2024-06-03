@@ -70,5 +70,5 @@ def hrt_attack_outcome(X_new):
 
 
     if float(y_pred)== 1:
-        return 'heartissues'
+        return 'heart'
     return None
