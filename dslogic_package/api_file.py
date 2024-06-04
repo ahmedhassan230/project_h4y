@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from dslogic_package.ml_logic import user_categoriztion
 from dslogic_package.ml_logic import recommend_posts
+from dslogic_package.ml_logic import post_categorise
 import pandas as pd
 
 
@@ -44,6 +45,16 @@ async def predict(usr:User):
 
 
 #Adding Logic to return the Posts
+
+@app.get("/categorise_posts")
+async def categorise_post(post:str):
+    try:
+        post_df = pd.DataFrame([{'Content':post}])
+        return post_categorise.post_categorize(post_df)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/posts")
 async def post_recommendation(usr:User):
