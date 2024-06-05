@@ -69,17 +69,17 @@ def user_category(user):
     if user_category==[]:
         user_category.append('generic')
         user_cat_dict["generic"]="YES"
-        
+
     #Fall back logic
-    cat_fallback=fallback_logic.fallback(df)
-    
+    cat_fallback=fallback_logic.fallback(user_dict)
+
     if user_cat_dict['diabetic']!='YES' and cat_fallback['diabetic']=='YES':
-        user_cat_dict['diabetic']='YES' 
-        
+        user_cat_dict['diabetic']='YES'
+
     if user_cat_dict['heart']!='YES' and cat_fallback['heart']=='YES':
-        user_cat_dict['heart']='YES' 
-        
-    if user_cat_dict['menta_health']!='YES' and cat_fallback['mental_health']=='YES':
-        user_cat_dict['mental_health']='YES'    
+        user_cat_dict['heart']='YES'
+
+    if user_cat_dict['mental_health']!='YES' and cat_fallback['mental_health']=='YES':
+        user_cat_dict['mental_health']='YES'
 
     return user_cat_dict
