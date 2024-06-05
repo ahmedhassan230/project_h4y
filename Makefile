@@ -1,7 +1,7 @@
 
 
 build_container_local_m1:
-	docker build --platform linux/amd64 --tag=MVP$IMAGE:dev .
+	docker build --platform linux/amd64 --tag=$IMAGE:dev .
 
 run_container_local_m1:
 	docker run -p 8080:8000 --platform linux/amd64 $IMAGE:dev

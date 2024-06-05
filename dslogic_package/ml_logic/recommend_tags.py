@@ -1,11 +1,26 @@
 import nltk
 import spacy
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 import string
+import random
 from dslogic_package.params import *
+from dslogic_package.ml_logic import post_categorise
 
 # Load SpaCy English model
 nlp = spacy.load("en_core_web_sm")
+
+def random_tags(category,tag_list_final):
+    print("entering random tag generation")
+    print(str(category))
+    n_items=5-len(tag_list_final)
+    if n_items>0:
+        tags_not_currently_present= [tag for tag in category_tag[category] if tag not in tag_list_final]
+        temp= random.sample(tags_not_currently_present, n_items)
+        print(temp)
+        tag_list_final=temp+tag_list_final
+    return tag_list_final
+
 
 # Preprocess the text
 def preprocess_text(text):
@@ -43,4 +58,7 @@ def create_tag(text):
     entities=extract_entities(text_preprocessed)
     tag_list_new=tags(keywords, entities)
     tag_list_final=health_specific_tags(tag_list_new)
-    return tag_list_final
+    post_df = pd.DataFrame([{'Content':text}])
+    category=post_categorise.post_categorize(post_df)
+    tag_list_final_random=random_tags(str(category),tag_list_final)
+    return tag_list_final_random
