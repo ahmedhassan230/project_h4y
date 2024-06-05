@@ -9,6 +9,7 @@ RUN pip install --upgrade pip setuptools wheel
 
 RUN pip install .
 RUN pip install -r requirements.txt
+RUN python -m spacy download en_core_web_sm
 
 #Run container
 #Launch app locally
