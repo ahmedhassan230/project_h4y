@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from dslogic_package.ml_logic import user_categoriztion
 from dslogic_package.ml_logic import recommend_posts
 from dslogic_package.ml_logic import post_categorise
+from dslogic_package.ml_logic import recommend_tags
 import pandas as pd
 
 
@@ -51,6 +52,15 @@ async def categorise_post(post:str):
     try:
         post_df = pd.DataFrame([{'Content':post}])
         return post_categorise.post_categorize(post_df)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/recommend_tags")
+async def recommend_post(post:str):
+    try:
+
+        return recommend_tags.create_tag(post)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

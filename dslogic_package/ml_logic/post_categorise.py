@@ -58,4 +58,4 @@ def post_categorize(X_new):
     # Make predictions
     y_pred = model.predict(X_post_tfidf)
 
-    return str(y_pred)
+    return y_pred[0]
